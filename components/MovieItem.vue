@@ -1,9 +1,11 @@
 <script setup>
-import { defineEmits } from "vue";
+import { defineEmits, computed } from "vue";
 import { StarIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 
 defineEmits(["remove", "edit", "update"])
 defineProps(["movie"])
+
+const notRated = computed(()=> movie.rating ? true : false )
 </script>
 
 <template>
@@ -11,9 +13,9 @@ defineProps(["movie"])
         <div class="movie-item-image-wrapper">
             <div class="movie-item-star-wrapper">
                 <StarIcon id="rating" class="movie-item-star-rating-icon"
-                    :class="[movie.rating ? 'text-yellow-500' : 'text-gray-500']" />
+                    :class="[notRated ? 'text-yellow-500' : 'text-gray-500']" />
                 <div class="movie-item-star-content-wrapper">
-                    <span v-if="movie.rating" id="rating-stars" class="movie-item-star-content-rating-rated">
+                    <span v-if="notRated" id="rating-stars" class="movie-item-star-content-rating-rated">
                         {{ movie.rating }}
                     </span>
                     <span v-else class="movie-item-star-content-rating-not-rated">
