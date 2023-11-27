@@ -4,19 +4,22 @@ import { computed, reactive, ref } from "vue";
 These are Icons that you can use, of course you can use other ones if you prefer.
 */
 import { StarIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
-import { items } from "./movies.json";
+import  {items}  from "./movies.json";
 import MovieItem from "../components/MovieItem.vue";
 
 const movies = ref(items);
 
-function updateRating(movieIndex, rating) {
-  movies.value[movieIndex].rating = rating;
+function updateRating(id, rating) {
+  const idIndex = movies.value.findIndex(movie => movie.id === id)
+  movies.value[idIndex].rating = rating;
 }
-function removeMovie(movieIndex) {
-  movies.value = movies.value.filter((movie, index) => index !== movieIndex);
+function removeMovie(id) {
+  const idIndex = movies.value.findIndex(movie => movie.id === id)
+  movies.value = movies.value.filter((movie, index) => movie.id !== id);
 }
-function editMovie(movieIndex) {
-  const movie = movies.value[movieIndex];
+function editMovie(id) {
+  const idIndex = movies.value.findIndex(movie => movie.id === id)
+  const movie = movies.value[idIndex];
 
   form.id = movie.id;
   form.name = movie.name;
@@ -287,10 +290,9 @@ function removeRatings() {
         v-for="(movie, index) in movies"
         :key="movie.id"
         :movie="movie"
-        :movieIndex="index"
-        @update-rating="updateRating"
-        @remove-movie="removeMovie"
-        @edit-movie="editMovie"
+        @update="updateRating(movie.id,$event)"
+        @remove="removeMovie(movie.id)"
+        @edit="editMovie(movie.id)"
       />
     </div>
   </div>

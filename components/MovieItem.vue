@@ -2,8 +2,8 @@
 import { defineEmits } from "vue";
 import { StarIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 
-defineEmits(["removeMovie", "editMovie", "updateRating"])
-defineProps(["movie","movieIndex"])
+defineEmits(["remove", "edit", "update"])
+defineProps(["movie"])
 </script>
 
 <template>
@@ -42,16 +42,16 @@ defineProps(["movie","movieIndex"])
                 <div class="movie-item-star-icon-wrapper">
                     <button v-for="star in 5" :key="star" class="movie-item-star-icon-button" :class="[
                         star <= movie.rating ? 'text-yellow-500' : 'text-gray-500',
-                    ]" :disabled="star === movie.rating" @click="$emit('updateRating', movieIndex, star)">
+                    ]" :disabled="star === movie.rating" @click="$emit('update', star)">
                         <StarIcon class="movie-item-star-icon" />
                     </button>
                 </div>
 
                 <div class="movie-item-actions-list-wrapper">
-                    <button class="movie-item-action-edit-button" @click="$emit('editMovie', movieIndex)">
+                    <button class="movie-item-action-edit-button" @click="$emit('edit')">
                         <PencilIcon class="w-4 h-4" />
                     </button>
-                    <button class="movie-item-action-remove-button" @click="$emit('removeMovie', movieIndex)">
+                    <button class="movie-item-action-remove-button" @click="$emit('remove')">
                         <TrashIcon class="w-4 h-4" />
                     </button>
                 </div>
